@@ -3,6 +3,10 @@ import requests
 
 app = Flask(__name__)
 
+@app.route('/')
+def home():
+    return 'Webhook service is running!'
+
 # Replace these with your actual Dhan API keys
 API_KEY = "1107106579"
 ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzQ3OTk0ODI5LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzEwNjU3OSJ9.tI_gnikieURrD4egCqCjftjFrELDWbTh0HWcv-NtHdqxWzpcJfRqo-BdYrQ_XeyhWKZ351qMiFNX_4qkltOoJQ"
