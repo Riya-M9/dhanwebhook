@@ -26,14 +26,16 @@ def place_order(signal, symbol, quantity=1):
     response = requests.post(url, headers=headers, json=payload)
     return response.json()
 
-@app.route('/webhook', methods=['POST'])
+@app.route("/webhook", methods=["POST"])
 def webhook():
-    data = request.json
-    symbol = data.get("symbol")
-    signal = data.get("side")
-    qty = data.get("qty", 1)
-    result = place_order(signal, symbol, qty)
-    return jsonify(result)
+    data = request.get_json()
+
+    # New key names based on test_webhook.py
+    signal = data["transaction_type"]
+    symbol = data["symbol"]
+    quantity = data["quantity"]
+
+    return place_order(signal, symbol, quantity)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
