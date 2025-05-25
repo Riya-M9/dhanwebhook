@@ -33,7 +33,7 @@ def webhook():
     data = request.get_json()
 
     # Ensure correct keys from TradingView
-    signal = data.get("transaction_type")
+    signal = data.get("transactionType")
     symbol = data.get("symbol")
     quantity = data.get("quantity", 1)
 
