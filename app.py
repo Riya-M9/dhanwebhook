@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 # Dhan API credentials
 API_KEY = "1107106579"
-ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzQ3OTk0ODI5LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzEwNjU3OSJ9.tI_gnikieURrD4egCqCjftjFrELDWbTh0HWcv-NtHdqxWzpcJfRqo-BdYrQ_XeyhWKZ351qMiFNX_4qkltOoJQ"
+ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzQ4MjQ2NzUwLCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzEwNjU3OSJ9.jLny7uQ6c5sngfcHAiPEYkRhpn3LsTjkLLt73ubc7uezpv1M_zAdwIMQmHKTLvL5Wh5GmkZG5h7crQQUxYevTA"
 
 def place_order(signal, symbol, quantity=1):
     url = "https://api.dhan.co/orders"
