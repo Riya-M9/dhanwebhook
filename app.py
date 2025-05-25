@@ -16,12 +16,12 @@ def place_order(signal, symbol, quantity=1):
     }
 
     payload = {
-        "transaction_type": "BUY" if signal.upper() == "BUY" else "SELL",
+        "transactionType": "BUY" if signal.upper() == "BUY" else "SELL",
         "security_id": symbol,
         "quantity": quantity,
         "order_type": "MARKET",
         "product_type": "INTRADAY",
-        "exchange_segment": "NSE_EQ",
+        "exchangeSegment": "NSE_EQ",
         "validity": "DAY"
     }
 
