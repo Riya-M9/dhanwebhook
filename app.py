@@ -26,18 +26,20 @@ def place_order(signal, symbol, quantity):
         "validity": "DAY"
     }
 
-    print("Sending Payload:", payload)
     response = requests.post(url, headers=headers, json=payload)
-    print("Status Code:", response.status_code)
-    print("Response:", response.text)
     return response.json()
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
     data = request.get_json()
-    signal = data.get("transactionType", "").upper()
-    symbol = data.get("securityId", "").upper()
-    quantity = data.get("quantity", 1)
+
+    # Extract required fields
+    try:
+        signal = data["transactionType"]
+        symbol = data["securityId"]
+        quantity = data["quantity"]
+    except KeyError as e:
+        return jsonify({"error": f"Missing field {e}"}), 400
 
     return place_order(signal, symbol, quantity)
 
