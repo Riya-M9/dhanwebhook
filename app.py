@@ -25,6 +25,8 @@ def place_order(signal, symbol, quantity):
         "exchangeSegment": "NSE_EQ",
         "validity": "DAY"
     }
+    
+    print("📤 Payload being sent to Dhan:", payload)
 
     response = requests.post(url, headers=headers, json=payload)
     return response.json()
