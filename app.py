@@ -3,9 +3,9 @@ import requests
 
 app = Flask(__name__)
 
-# Dhan API credentials
+# REPLACE with valid credentials
 API_KEY = "1107106579"
-ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzQ4MjQ2NzUwLCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzEwNjU3OSJ9.jLny7uQ6c5sngfcHAiPEYkRhpn3LsTjkLLt73ubc7uezpv1M_zAdwIMQmHKTLvL5Wh5GmkZG5h7crQQUxYevTA"
+ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzQ5MDMwNzc0LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzEwNjU3OSJ9.JjwLsVu3jr_s1vi-JQTYVbP1ojgbY1nGvZasG8qkmmRnT8aLny-EBc7iyaOCK5N1cTIeMzDFk4pRdgnc29-3iA"
 
 def place_order(signal, symbol, quantity):
     url = "https://api.dhan.co/orders"
@@ -17,8 +17,8 @@ def place_order(signal, symbol, quantity):
     }
 
     payload = {
-        "transactionType": "BUY" if signal.upper() == "BUY" else "SELL",
-        "securityId": symbol,
+        "transactionType": signal.upper(),
+        "securityId": symbol.upper(),
         "quantity": quantity,
         "orderType": "MARKET",
         "productType": "INTRADAY",
@@ -26,18 +26,20 @@ def place_order(signal, symbol, quantity):
         "validity": "DAY"
     }
 
+    print("Sending Payload:", payload)
     response = requests.post(url, headers=headers, json=payload)
+    print("Status Code:", response.status_code)
+    print("Response:", response.text)
     return response.json()
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
     data = request.get_json()
-    signal = data["transactionType"]
-    symbol = data["securityId"]
-    quantity = data["quantity"]
+    signal = data.get("transactionType", "").upper()
+    symbol = data.get("securityId", "").upper()
+    quantity = data.get("quantity", 1)
 
     return place_order(signal, symbol, quantity)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
-
