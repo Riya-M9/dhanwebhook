@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-import requests
+import os, requests
 
 app = Flask(__name__)
 
@@ -46,4 +46,5 @@ def webhook():
     return place_order(signal, symbol, quantity)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    port = int(os.environ.get("PORT", 5000))  # use 5000 as default locally
+    app.run(host="0.0.0.0", port=port)
