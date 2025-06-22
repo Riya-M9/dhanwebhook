@@ -7,14 +7,11 @@ app = Flask(__name__)
 API_KEY = "1107106579"
 ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzUwNjcxOTc2LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzEwNjU3OSJ9.-d4-g1HN2cjAybfcLo0ZVcSzW_5jnIogMiIKGsUZGG4fQAi0Z8iqvb85nkV_5v81FBM596c-LY0PBY1qMJ3Qhg"
 
-DHAN_ORDER_URL = "https://api.dhan.co/orders"
-
 def place_order(signal, ticker, price):
-    transaction_type = "BUY" if signal.upper() == "BUY" else "SELL"
-
+    dhan_url = "https://api.dhan.co/orders"
     payload = {
-        "transaction_type": transaction_type,
-        "symbol": "RELIANCE",  # Hardcoded
+        "transaction_type": "BUY" if signal.upper() == "BUY" else "SELL",
+        "symbol": ticker,
         "quantity": 1,
         "order_type": "MARKET",
         "product": "INTRADAY"
@@ -27,24 +24,28 @@ def place_order(signal, ticker, price):
         "Dhan-Client-Id": API_KEY
     }
 
-    response = requests.post(DHAN_ORDER_URL, json=payload, headers=headers)
-    print("📤 Order Sent:", json.dumps(payload, indent=2))
-    print("📥 Dhan Response:", response.json())
+    print("📤 Sending payload to Dhan:", json.dumps(payload, indent=2))
+    response = requests.post(dhan_url, json=payload, headers=headers)
+    print("📥 Dhan response:", response.text)
     return response.json()
 
 @app.route('/trade', methods=['POST'])
 def trade():
     data = request.json
-    print("🚨 Webhook Received:", data)
+    print("🚨 Webhook triggered. Incoming data:", data)
 
     signal = data.get('signal')
+    ticker = data.get('ticker')
     price = data.get('price')
 
-    if not signal or not price:
-        print("❌ Missing required data.")
-        return {"error": "Missing data"}, 400
+    if not all([signal, ticker, price]):
+        return {"error": "Missing signal, ticker, or price"}, 400
 
-    return place_order(signal, "RELIANCE", price)
+    return place_order(signal, ticker, price)
+
+@app.route('/')
+def home():
+    return "✅ Webhook server is live."
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=10000)
