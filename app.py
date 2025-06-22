@@ -11,12 +11,18 @@ def place_order(signal, ticker, price):
     dhan_url = "https://api.dhan.co/orders"
 
     payload = {
-        "exchangeSegment": "NSE_EQ",                # Required!
+        "exchangeSegment": "NSE_EQ",
         "transactionType": "BUY" if signal.upper() == "BUY" else "SELL",
-        "symbol": ticker,
-        "quantity": 1,
+        "productType": "INTRADAY",
         "orderType": "MARKET",
-        "productType": "INTRADAY"                   # Also should be 'productType' not 'product'
+        "price": 0,
+        "quantity": 1,
+        "disclosedQuantity": 0,
+        "symbol": "RELIANCE",
+        "securityId": "INE002A01018",
+        "orderValidity": "DAY",
+        "afterMarketOrder": False,
+        "amoTime": "OPEN"
     }
 
     headers = {
@@ -26,10 +32,10 @@ def place_order(signal, ticker, price):
         "Dhan-Client-Id": API_KEY
     }
 
-    print("📤 Sending payload to Dhan:", json.dumps(payload, indent=2))
-    response = requests.post(dhan_url, json=payload, headers=headers)
-    print("📥 Dhan response:", response.text)
-    return response.json()
+    print("📤 Final Payload to Dhan:\n", json.dumps(payload, indent=2))
+    res = requests.post(dhan_url, json=payload, headers=headers)
+    print("📥 Dhan Response:", res.text)
+    return res.json()
 
 
 @app.route('/trade', methods=['POST'])
