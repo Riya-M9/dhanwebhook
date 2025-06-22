@@ -9,12 +9,14 @@ ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5
 
 def place_order(signal, ticker, price):
     dhan_url = "https://api.dhan.co/orders"
+
     payload = {
-        "transaction_type": "BUY" if signal.upper() == "BUY" else "SELL",
+        "exchangeSegment": "NSE_EQ",                # Required!
+        "transactionType": "BUY" if signal.upper() == "BUY" else "SELL",
         "symbol": ticker,
         "quantity": 1,
-        "order_type": "MARKET",
-        "product": "INTRADAY"
+        "orderType": "MARKET",
+        "productType": "INTRADAY"                   # Also should be 'productType' not 'product'
     }
 
     headers = {
@@ -28,6 +30,7 @@ def place_order(signal, ticker, price):
     response = requests.post(dhan_url, json=payload, headers=headers)
     print("📥 Dhan response:", response.text)
     return response.json()
+
 
 @app.route('/trade', methods=['POST'])
 def trade():
