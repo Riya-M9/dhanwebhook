@@ -5,7 +5,7 @@ import json
 app = Flask(__name__)
 
 API_KEY = "1107106579"
-ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzUwNjcxOTc2LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzEwNjU3OSJ9.-d4-g1HN2cjAybfcLo0ZVcSzW_5jnIogMiIKGsUZGG4fQAi0Z8iqvb85nkV_5v81FBM596c-LY0PBY1qMJ3Qhg"
+ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzUxMjAzNzA0LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzEwNjU3OSJ9.pjSb8r0qWYvGJ7lOlLiYtDn7X_iDsdwsa5Eycq0gl8LsSBapC2vC-Kl45KNoxHO5mjf4VgUA0zfYKwltpzNeIA"
 
 def place_order(signal, ticker, price):
     dhan_url = "https://api.dhan.co/orders"
