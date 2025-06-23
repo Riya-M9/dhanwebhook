@@ -1,6 +1,7 @@
 from flask import Flask, request
 import requests
 import json
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -40,17 +41,26 @@ def place_order(signal, ticker, price):
 
 @app.route('/trade', methods=['POST'])
 def trade():
-    data = request.json
-    print("🚨 Webhook triggered. Incoming data:", data)
+    try:
+        print("===================================")
+        print("🚨 Webhook HIT at:", datetime.now())
+        print("🚨 Raw Payload:", request.get_json())
+        print("===================================")
 
-    signal = data.get('signal')
-    ticker = data.get('ticker')
-    price = data.get('price')
+        data = request.get_json()
+        signal = data.get('signal')
+        ticker = data.get('ticker')
+        price = data.get('price')
 
-    if not all([signal, ticker, price]):
-        return {"error": "Missing signal, ticker, or price"}, 400
+        if not all([signal, ticker, price]):
+            print("❌ Missing fields in data")
+            return {"error": "Missing signal, ticker or price"}, 400
 
-    return place_order(signal, ticker, price)
+        return place_order(signal, ticker, price)
+
+    except Exception as e:
+        print("❌ Exception in /trade:", str(e))
+        return {"error": "Internal error"}, 500
 
 @app.route('/')
 def home():
