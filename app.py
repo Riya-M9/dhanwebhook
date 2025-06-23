@@ -22,8 +22,6 @@ def place_order(signal, ticker, price):
         "symbol": "RELIANCE",
         "securityId": "INE002A01018",
         "orderValidity": "DAY",
-        "afterMarketOrder": False,
-        "amoTime": "OPEN"
     }
 
     headers = {
