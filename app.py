@@ -12,16 +12,16 @@ def place_order(signal, ticker, price):
     dhan_url = "https://api.dhan.co/orders"
 
     payload = {
-        "exchangeSegment": "NSE_EQ",
-        "transactionType": "BUY" if signal.upper() == "BUY" else "SELL",
+        "exchangeSegment": "NSE",
+        "securityId": "INE002A01018",
+        "transactionType": "BUY",
         "productType": "INTRADAY",
         "orderType": "MARKET",
         "price": 0,
         "quantity": 1,
         "disclosedQuantity": 0,
         "symbol": "RELIANCE",
-        "securityId": "INE002A01018",
-        "orderValidity": "DAY",
+        "orderValidity": "DAY"
     }
 
     headers = {
