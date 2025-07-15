@@ -22,7 +22,7 @@ def place_order(signal):
 
     headers = {
         "access-token": ACCESS_TOKEN,
-        "Dhan-Client-Id": API_KEY,
+        "dhanClientId": API_KEY,
         "Content-Type": "application/json",
         "Accept": "application/json"
     }
