@@ -1,54 +1,50 @@
 from flask import Flask, request
 import requests
 import json
-from datetime import datetime
 
 app = Flask(__name__)
 
 API_KEY = "1107106579"
-ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzUxMjAzNzA0LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzEwNjU3OSJ9.pjSb8r0qWYvGJ7lOlLiYtDn7X_iDsdwsa5Eycq0gl8LsSBapC2vC-Kl45KNoxHO5mjf4VgUA0zfYKwltpzNeIA"
+ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzUzMTY1Mzk4LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzEwNjU3OSJ9.LKiqf2ACBEqQyGKfD8lRDTiJHT4mSTHQdDEe0l2IauGdLvA5gTFjGhudD8FYyfs0VuRG0UbGuCARsyAd83cWmQ"
 
-def place_order(signal, ticker, price):
-    dhan_url = "https://api.dhan.co/orders"
-
+def place_order(signal):
     payload = {
+        "securityId": "2885",  # Reliance NSE
         "exchangeSegment": "NSE_EQ",
-        "securityId": "2885",
         "transactionType": signal.upper(),
-        "productType": "INTRADAY",
         "orderType": "MARKET",
-        "price": 0,
+        "productType": "INTRADAY",
         "quantity": 1,
         "disclosedQuantity": 0,
-        "symbol": ticker,
-        "orderValidity": "DAY"
+        "orderValidity": "DAY",
+        "afterMarketOrder": False
     }
 
     headers = {
         "access-token": ACCESS_TOKEN,
+        "Dhan-Client-Id": API_KEY,
         "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Dhan-Client-Id": API_KEY
+        "Accept": "application/json"
     }
 
-    response = requests.post(dhan_url, json=payload, headers=headers)
+    response = requests.post("https://api.dhan.co/orders", json=payload, headers=headers)
+    print(response.status_code, response.text)
     return response.json()
 
 @app.route('/trade', methods=['POST'])
 def trade():
     data = request.get_json()
-    signal = data.get('signal')
-    ticker = data.get('ticker')
-    price = data.get('price')
+    print("Webhook received:", data)
 
-    if not all([signal, ticker, price]):
-        return {"error": "Missing signal, ticker or price"}, 400
+    signal = data.get("signal")
+    if not signal:
+        return {"error": "Missing signal"}, 400
 
-    return place_order(signal, ticker, price)
+    return place_order(signal)
 
 @app.route('/')
 def home():
-    return "Webhook server is live."
+    return "✅ Webhook is live."
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=10000)
