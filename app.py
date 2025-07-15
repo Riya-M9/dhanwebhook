@@ -33,7 +33,7 @@ def place_order(signal):
 
 @app.route('/trade', methods=['POST'])
 def trade():
-    data = request.get_json()
+    data = request.get_json(force=True)
     print("Webhook received:", data)
 
     signal = data.get("signal")
