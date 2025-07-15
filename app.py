@@ -13,7 +13,6 @@ def place_order(signal):
         "securityId": "2885",  # Reliance NSE
         "exchangeSegment": "NSE_EQ",
         "transactionType": signal.upper(),
-        "orderType": "MARKET",
         "productType": "INTRADAY",
         "quantity": 1,
         "disclosedQuantity": 0,
