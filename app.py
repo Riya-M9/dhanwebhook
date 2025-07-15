@@ -10,6 +10,7 @@ ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5
 
 def place_order(signal):
     payload = {
+        "dhanClientId": "1107106579",
         "securityId": "2885",  # Reliance NSE
         "exchangeSegment": "NSE_EQ",
         "transactionType": signal.upper(),
@@ -22,7 +23,6 @@ def place_order(signal):
 
     headers = {
         "access-token": ACCESS_TOKEN,
-        "dhanClientId": API_KEY,
         "Content-Type": "application/json",
         "Accept": "application/json"
     }
