@@ -10,26 +10,26 @@ ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5
 
 def place_order(signal):
     payload = {
-        "securityId": "2885",  # Reliance NSE
+        "dhanClientId": 1107106579,
+        "transactionType": signal.upper(),          # BUY / SELL
         "exchangeSegment": "NSE_EQ",
-        "transactionType": signal.upper(),  # BUY or SELL
-        "orderType": "MARKET",  # Required
         "productType": "INTRADAY",
+        "orderType": "MARKET",                      # MARKET order doesn't need price
+        "validity": "DAY",
+        "securityId": "2885",                       # Reliance NSE
         "quantity": 1,
-        "disclosedQuantity": 0,
-        "orderValidity": "DAY",
-        "afterMarketOrder": False
+        "afterMarketOrder": False,
+        "amoTime": "OPEN"
     }
 
     headers = {
         "access-token": ACCESS_TOKEN,
         "Content-Type": "application/json",
-        "Accept": "application/json",
-        "dhanClientId": API_KEY
+        "Accept": "application/json"
     }
 
     response = requests.post("https://api.dhan.co/orders", json=payload, headers=headers)
-    print(response.status_code, response.text)
+    print("Order Response:", response.status_code, response.text)
     return response.json()
 
 @app.route('/trade', methods=['POST'])
