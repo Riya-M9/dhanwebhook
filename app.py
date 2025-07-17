@@ -10,10 +10,10 @@ ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5
 
 def place_order(signal):
     payload = {
-        "dhanClientId": "1107106579",
         "securityId": "2885",  # Reliance NSE
         "exchangeSegment": "NSE_EQ",
-        "transactionType": signal.upper(),
+        "transactionType": signal.upper(),  # BUY or SELL
+        "orderType": "MARKET",  # Required
         "productType": "INTRADAY",
         "quantity": 1,
         "disclosedQuantity": 0,
@@ -24,7 +24,8 @@ def place_order(signal):
     headers = {
         "access-token": ACCESS_TOKEN,
         "Content-Type": "application/json",
-        "Accept": "application/json"
+        "Accept": "application/json",
+        "dhanClientId": API_KEY
     }
 
     response = requests.post("https://api.dhan.co/orders", json=payload, headers=headers)
@@ -48,4 +49,3 @@ def home():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
-
