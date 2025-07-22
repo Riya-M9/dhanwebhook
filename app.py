@@ -7,8 +7,9 @@ app = Flask(__name__)
 
 API_KEY = "1107106579"
 ACCESS_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzUzMTY1Mzk4LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzEwNjU3OSJ9.LKiqf2ACBEqQyGKfD8lRDTiJHT4mSTHQdDEe0l2IauGdLvA5gTFjGhudD8FYyfs0VuRG0UbGuCARsyAd83cWmQ"
+
 # VI (Vodafone Idea) NSE security ID (from instrument list)
-VI_SECURITY_ID = "1594"  # Confirm from the latest NSE_EQ instrument file
+VI_SECURITY_ID = "14366"  # Confirm from the latest NSE_EQ instrument file
 
 def place_order(signal):
     payload = {
@@ -60,4 +61,3 @@ def home():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
-    
